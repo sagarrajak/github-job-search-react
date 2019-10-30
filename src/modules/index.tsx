@@ -1,8 +1,10 @@
-import { Box, Theme } from "@material-ui/core";
+import { Theme } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/styles";
 import React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { Route, RouteComponentProps, Router, Switch } from "react-router-dom";
+import SearchResult from "./search-results/search-result";
+import Search from "./search/search";
 
 interface IOwnProps extends RouteComponentProps<{ key: string }> {
 }
@@ -26,9 +28,12 @@ const useStyles = makeStyles((theme: Theme) =>
 function IndexPage(props: IProps) {
   const classes = useStyles();
   return (
-    <Box>
-      
-    </Box>
+    <Router {...props}>
+      <Switch>
+        <Route path="/result"><SearchResult {...props} /></Route>
+        <Route path="/"><Search {...props} /></Route>
+      </Switch>
+    </Router>
   );
 }
 
