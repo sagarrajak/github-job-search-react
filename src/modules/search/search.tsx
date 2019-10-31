@@ -1,5 +1,5 @@
-import { Grid, Theme, Typography } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/styles";
+import { Box, Button, TextField, Theme, Typography } from "@material-ui/core";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
@@ -19,16 +19,49 @@ type IProps = IOwnProps & IStateProps & IDiaptchProps;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-
+    textFieldContainer: {
+      width: "40%",
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
+    },
+    textField: {
+      width: "100%",
+    },
+    searchButton: {
+      width: "5%",
+      height: theme.spacing(6),
+    },
+    searchText: {
+      width: "10%",
+    },
   }),
 );
 
-function Boilerplate(props: IProps) {
+function Search(props: IProps) {
   const classes = useStyles();
   return (
-    <Grid>
-      <Typography variant="h4">Search page is working</Typography>
-    </Grid>
+    <Box display="flex" width="100" justifyContent="space-around" alignItems="center" boxShadow={2} m={3} p={3}>
+      <Typography variant="h4" component="h3">Github Jobs</Typography>
+      <Box className={classes.textFieldContainer} >
+        <Typography variant="body1">What</Typography>
+        <TextField
+          className={classes.textField}
+          id="search"
+          label="Keyword"
+          margin="normal"
+        />
+      </Box>
+      <Box className={classes.textFieldContainer}>
+        <Typography variant="body1">Where</Typography>
+        <TextField
+          className={classes.textField}
+          id="location"
+          label="Location"
+          margin="normal"
+        />
+      </Box>
+      <Button className={classes.searchButton} variant="contained" color="primary">Search</Button>
+    </Box>
   );
 }
 
@@ -45,4 +78,4 @@ const mapDispatchToProps = (dispatch: any): IDiaptchProps => {
   };
 };
 
-export default connect<IStateProps, IDiaptchProps, IOwnProps, {}>(mapStateToProps, mapDispatchToProps)(Boilerplate);
+export default connect<IStateProps, IDiaptchProps, IOwnProps, {}>(mapStateToProps, mapDispatchToProps)(Search);
