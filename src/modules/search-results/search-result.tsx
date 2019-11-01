@@ -1,6 +1,6 @@
 import { Box, Grid, Hidden, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import Search from "../search/search";
@@ -8,10 +8,13 @@ import { ISearchState } from "../search/searchSlice";
 import { IRootState } from "../types";
 import JobCard from "./job-card/jobCard";
 import { IJobDescription } from "./job-card/types";
+import JobDetailed from './job-detailed/job-detailed';
 
 interface IOwnProps extends RouteComponentProps<{ key: string }> {}
 
-type IStateProps = ISearchState;
+type IStateProps = ISearchState & {
+  selectedId: string;
+};
 type IProps = IOwnProps & IStateProps;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,6 +39,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function SearchResult(props: IProps) {
   const classes = useStyles();
+  const [selectedJob, setSelectedJob] = useState<IJobDescription|null>(null);
+  
+  useEffect(() => {
+    if (props.selectedId)  {
+      const index = props.fetchedJobs.findIndex(job => job.id === props.selectedId);
+      if(index>=0) {
+        setSelectedJob(props.fetchedJobs[index]);
+        console.log(props.fetchedJobs, index);
+      }
+    }
+  }, [props.selectedId]);
+
   return (
     <React.Fragment>
       <Grid container>
@@ -59,7 +74,7 @@ function SearchResult(props: IProps) {
           </Grid>
           <Hidden mdDown>
             <Grid md={6}>
-                <Box>This is result</Box>
+                { selectedJob ?  <JobDetailed {...selectedJob} /> : null }
             </Grid>
           </Hidden>
       </Grid>
@@ -73,6 +88,7 @@ function SearchResult(props: IProps) {
 const mapStateToProps = (state: IRootState): IStateProps => ({
     ...state.search,
     keyword: state.search.keyword,
+    selectedId: state.jobCard.selectedId,
 });
 
 export default connect<IStateProps, any, IOwnProps, any>(mapStateToProps, null)(SearchResult);

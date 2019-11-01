@@ -1,34 +1,48 @@
-import { Grid, Theme, Typography } from "@material-ui/core";
+import { Box, Theme, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/styles";
 import React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { IJobCardState } from "../job-card/jobCardSlice";
+import { IJobDescription } from "../job-card/types";
 
-interface IOwnProps extends RouteComponentProps<{ key: string }> {
-}
-
-// tslint:disable-next-line: no-empty-interface
-interface IStateProps {
-}
-
-// tslint:disable-next-line: no-empty-interface
-interface IDiaptchProps {
-}
+type IOwnProps = IJobDescription;
+type IStateProps = IJobCardState; 
+interface IDiaptchProps {}
 
 type IProps = IOwnProps & IStateProps & IDiaptchProps;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-
+    headerJobTitleText: {
+      fontSize: "1.55em",
+      fontWeight: 800,
+    },
+    subHeaderLocationText: {
+      fontSize: "1em",
+    },
+    subHeaderCompany: {
+      fontSize: "1.125em",
+    },
+    boxContainerActive: {
+      backgroundColor: '#ccc6c6',
+    },
   }),
 );
 
-function Job(props: IProps) {
+function JobDeailed(props: IProps) {
   const classes = useStyles();
   return (
-    <Grid>
-      <Typography variant="h4">Search page is working</Typography>
-    </Grid>
+  <Box 
+      className={classes.boxContainerActive}
+      width="100%"
+      boxShadow={2} p={2} 
+      component={"div"}
+    >
+    <Typography className={classes.headerJobTitleText}>{props.title}</Typography>
+    <Typography className={classes.subHeaderCompany}>{props.title}</Typography>
+    <Typography className={classes.subHeaderLocationText}>{props.location}</Typography>
+    <Box dangerouslySetInnerHTML={{__html: props.description }}></Box> 
+  </Box>
   );
 }
 
@@ -36,13 +50,8 @@ function Job(props: IProps) {
  * @param state replace type any with your root state interface
  */
 const mapStateToProps = (state: any): IStateProps => ({
-
+  ...state.jobCard,
 });
 
-const mapDispatchToProps = (dispatch: any): IDiaptchProps => {
-  return {
 
-  };
-};
-
-export default connect<IStateProps, IDiaptchProps, IOwnProps, {}>(mapStateToProps, mapDispatchToProps)(Job);
+export default connect<IStateProps, IDiaptchProps, IOwnProps, any>(mapStateToProps)(JobDeailed);
