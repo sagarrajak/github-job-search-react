@@ -1,4 +1,4 @@
-import { Box, Theme, Typography } from "@material-ui/core";
+import { Box, Theme, Typography, Button } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/styles";
 import React from "react";
 import { connect } from "react-redux";
@@ -42,6 +42,7 @@ function JobDeailed(props: IProps) {
     <Typography className={classes.subHeaderCompany}>{props.title}</Typography>
     <Typography className={classes.subHeaderLocationText}>{props.location}</Typography>
     <Box dangerouslySetInnerHTML={{__html: props.description }}></Box> 
+    <Button variant="contained" color="primary" >Apply</Button>
   </Box>
   );
 }
