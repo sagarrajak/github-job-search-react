@@ -14,7 +14,8 @@ export function InputField(props: WrappedFieldProps & IOwnProps) {
 	  {...props.input}
 		id={props.id}
 		type={props.type}
-		label={props.label}
+    label={props.label}
+    style={{width: "100%"}}
 		margin="normal"
 		error={props.meta.touched && props.meta.invalid}
 		helperText={props.meta.touched && props.meta.error ? props.meta.error : '' }

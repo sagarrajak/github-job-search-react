@@ -2,13 +2,14 @@ import { Box, Grid, Hidden, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Route } from "react-router-dom";
 import Search from "../search/search";
 import { ISearchState } from "../search/searchSlice";
 import { IRootState } from "../types";
 import JobCard from "./job-card/jobCard";
 import { IJobDescription } from "./job-card/types";
 import JobDetailed from './job-detailed/job-detailed';
+import _ from 'lodash';
 
 interface IOwnProps extends RouteComponentProps<{ key: string }> { }
 
@@ -76,7 +77,7 @@ function SearchResult(props: IProps) {
         </Grid>
         <Hidden mdDown>
           <Grid md={6}>
-            {selectedJob ? <JobDetailed {...selectedJob} /> : null}
+            {selectedJob ? <JobDetailed job={selectedJob} {...props} /> : null}
           </Grid>
         </Hidden>
       </Grid>

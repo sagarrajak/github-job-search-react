@@ -16,7 +16,8 @@ export function TextareaField(props: WrappedFieldProps & IOwnProps) {
 		type={props.type}
     label={props.label}
     multiline
-		margin="normal"
+    margin="normal"
+    style={{width: "100%"}}
 		error={props.meta.touched && props.meta.invalid}
 		helperText={props.meta.touched && props.meta.error ? props.meta.error : '' }
 	/>

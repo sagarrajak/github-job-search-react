@@ -3,8 +3,8 @@ import { createStyles, makeStyles } from "@material-ui/styles";
 import React from "react";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
+import ApplyPage from "./apply-page/applyPage";
 import SearchResult from "./search-results/search-result";
-import Search from "./search/search";
 
 // tslint:disable-next-line: no-empty-interface
 interface IOwnProps { }
@@ -29,6 +29,7 @@ function IndexPage(props: IProps) {
   const classes = useStyles();
   return (
     <Switch>
+      <Route path='/apply' component={ApplyPage} />
       <Route path="/" component={SearchResult} />
     </Switch>
   );

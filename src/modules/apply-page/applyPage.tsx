@@ -1,10 +1,10 @@
 import { Box, Fab } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Undo from '@material-ui/icons/Undo';
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import ApplyPageForm from './applyPageForm';
-import NavigationIcon from '@material-ui/icons/Navigation';
 
 interface IOwnProps extends RouteComponentProps { }
 
@@ -21,24 +21,25 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const onFormSubmit = (values: any) => {
-  ((time: number) =>
+  return ((time: number) =>
     new Promise<any>((resolve) => setTimeout(() => resolve(), time)))(1500)
     .then(() => {
       alert(JSON.stringify(values));
     });
 }
 
-function Boilerplate(props: IProps) {
+function ApplyPage(props: IProps) {
   const classes = useStyles();
   return (
     <Box flex flexDirection="column" justifyContent="space-arround" p={2}>
       <Fab
         variant="extended"
         size="small"
+        onClick={() => props.history.goBack() }
         color="primary"
         aria-label="add">
-        <NavigationIcon />
-        Extended
+        <Undo />
+        Back
       </Fab>
       <ApplyPageForm onSubmit={onFormSubmit} />
     </Box>
@@ -58,4 +59,4 @@ const mapDispatchToProps = (dispatch: any): IDiaptchProps => {
   };
 };
 
-export default connect<IStateProps, IDiaptchProps, IOwnProps, any>(mapStateToProps, mapDispatchToProps)(Boilerplate);
+export default connect<IStateProps, IDiaptchProps, IOwnProps, any>(mapStateToProps, mapDispatchToProps)(ApplyPage);

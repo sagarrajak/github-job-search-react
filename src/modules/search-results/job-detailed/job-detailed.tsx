@@ -4,8 +4,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { IJobCardState } from "../job-card/jobCardSlice";
 import { IJobDescription } from "../job-card/types";
+import { RouteComponentProps } from "react-router-dom";
 
-type IOwnProps = IJobDescription;
+type IOwnProps =  {
+  job: IJobDescription,
+} & RouteComponentProps;
+
 type IStateProps = IJobCardState; 
 interface IDiaptchProps {}
 
@@ -31,6 +35,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function JobDeailed(props: IProps) {
   const classes = useStyles();
+  const applyForJob = () => {
+    props.history.push('/apply');
+  }
+  
   return (
   <Box 
       className={classes.boxContainerActive}
@@ -38,11 +46,11 @@ function JobDeailed(props: IProps) {
       boxShadow={2} p={2} 
       component={"div"}
     >
-    <Typography className={classes.headerJobTitleText}>{props.title}</Typography>
-    <Typography className={classes.subHeaderCompany}>{props.title}</Typography>
-    <Typography className={classes.subHeaderLocationText}>{props.location}</Typography>
-    <Box dangerouslySetInnerHTML={{__html: props.description }}></Box> 
-    <Button variant="contained" color="primary" >Apply</Button>
+    <Typography className={classes.headerJobTitleText}>{props.job.title}</Typography>
+    <Typography className={classes.subHeaderCompany}>{props.job.title}</Typography>
+    <Typography className={classes.subHeaderLocationText}>{props.job.location}</Typography>
+    <Box dangerouslySetInnerHTML={{__html: props.job.description }}></Box> 
+    <Button variant="contained" color="primary" onClick={applyForJob} >Apply</Button>
   </Box>
   );
 }
