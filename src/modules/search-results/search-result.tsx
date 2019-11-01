@@ -8,7 +8,7 @@ import { ISearchState } from "../search/searchSlice";
 import { IRootState } from "../types";
 import JobCard from "./job-card/jobCard";
 import { IJobDescription } from "./job-card/types";
-import JobDetailed from './job-detailed/job-detailed';
+import JobDetailed from './job-detailed/jobDetailed';
 import _ from 'lodash';
 
 interface IOwnProps extends RouteComponentProps<{ key: string }> { }

@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Paper, Typography, Box } from "@material-ui/core";
+import { Box, Button, CircularProgress, Paper, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: theme.spacing(20),
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
-    }
+    },
   }),
 );
 
@@ -30,39 +30,41 @@ function ApplyPageForm(props: InjectedFormProps) {
   const classes = useStyles();
   return (
     <form>
-        <Box p={4}>
-            <Paper className={classes.paperContainer}>
-              <Typography  variant='h5'>Application Form</Typography>
-              <Field  
-                name="name"
-                component={InputField}
-                label="Name"
-                type="text"
-                validate={isRequired}
-              />
-              <Field 
-                name='email'
-                component={InputField}
-                label="Email"
-                type="text"
-                validate={[isRequired, isEmail]}
-              />
-              <Field 
-                name='cover_letter'
-                component={TextareaField}
-                label="Cover letter notes"
-                type="text"
-                validate={isRequired}
-              />
-              <Field 
-                name="resume"
-                component={FileInputField}
-                label="Upload resume"
-              />
-              <Button variant="contained"  className={classes.submitButton} onClick={props.handleSubmit} disabled={props.invalid || props.submitting} >Submit</Button>
-              {props.submitting ? <CircularProgress /> : ''}
-            </Paper>
-        </Box>
+      <Box p={4}>
+        <Paper className={classes.paperContainer}>
+          <Typography variant='h5'>Application Form</Typography>
+          <Field
+            name="name"
+            component={InputField}
+            label="Name"
+            type="text"
+            validate={isRequired}
+          />
+          <Field
+            name='email'
+            component={InputField}
+            label="Email"
+            type="text"
+            validate={[isRequired, isEmail]}
+          />
+          <Field
+            name='cover_letter'
+            component={TextareaField}
+            label="Cover letter notes"
+            type="text"
+            validate={isRequired}
+          />
+          <Field
+            name="resume"
+            component={FileInputField}
+            label="Upload resume"
+          />
+          <Button variant="contained"
+              className={classes.submitButton} onClick={props.handleSubmit}
+              disabled={props.invalid || props.submitting} >Submit</Button>
+          {props.submitting ? <CircularProgress /> : ''}
+        </Paper>
+      </Box>
     </form>
   );
 }
