@@ -1,4 +1,4 @@
-import { Box, Paper, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React from 'react';
 import { IJobDescription } from './types';
@@ -23,7 +23,14 @@ export default function JobCard(props: IJobDescription) {
         <Typography className={classes.headerJobTitleText}>{props.title}</Typography>
         <Typography className={classes.subHeaderCompany}>{props.title}</Typography>
         <Typography className={classes.subHeaderLocationText}>{props.location}</Typography>
-        <Box dangerouslySetInnerHTML={{__html: props.description }}></Box>
+        {/* <Box dangerouslySetInnerHTML={{__html: parseHTML(props.description) }}></Box> */}
     </Box>
-  )
+  );
 }
+
+const parseHTML = (html: string) => {
+   if ( !html ) { return ''; }
+   const dom = new DOMParser().parseFromString(html, "text/xml");
+   console.log(dom);
+   return html;
+};
