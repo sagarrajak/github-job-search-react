@@ -7,14 +7,15 @@ import { reducer as formReducer } from "redux-form";
 import { configureStore } from "redux-starter-kit";
 import App from "./App";
 import "./index.css";
+import { jobCardReducer } from "./modules/search-results/job-card/jobCardSlice";
 import { searchReducer } from "./modules/search/searchSlice";
-import { IndexReducer } from "./modules/store/index-reducer";
 import * as serviceWorker from "./serviceWorker";
+import { IRootState } from "./modules/types";
 
-const rootReducer = combineReducers({
-  index: IndexReducer,
+const rootReducer = combineReducers<IRootState>({
   form: formReducer,
   search: searchReducer,
+  jobCard: jobCardReducer,
 });
 
 const store = configureStore({

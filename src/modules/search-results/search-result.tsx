@@ -6,7 +6,7 @@ import { RouteComponentProps } from "react-router-dom";
 import Search from "../search/search";
 import { ISearchState } from "../search/searchSlice";
 import { IRootState } from "../types";
-import JobCard from "./job-card/job-card";
+import JobCard from "./job-card/jobCard";
 import { IJobDescription } from "./job-card/types";
 
 interface IOwnProps extends RouteComponentProps<{ key: string }> {}
