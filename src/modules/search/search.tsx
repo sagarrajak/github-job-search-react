@@ -1,18 +1,21 @@
-import { Box, Button, TextField, Theme, Typography } from "@material-ui/core";
+import { Box, Button, CircularProgress, TextField, Theme, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import queryString from 'query-string';
+import React, { useCallback, useState } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
+import { IRootState } from "../types";
+import { ISearchState, jobFetchedFinishedError, jobFetchedFinishedSuccess, jobfetchStarted } from "./searchSlice";
 
 interface IOwnProps extends RouteComponentProps<{ key: string }> {
 }
 
-// tslint:disable-next-line: no-empty-interface
-interface IStateProps {
-}
+type IStateProps = ISearchState;
 
-// tslint:disable-next-line: no-empty-interface
 interface IDiaptchProps {
+  error: (error: any) => void;
+  success: (data: any) => void;
+  started: () => void;
 }
 
 type IProps = IOwnProps & IStateProps & IDiaptchProps;
@@ -39,43 +42,71 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Search(props: IProps) {
   const classes = useStyles();
+  const  [location, setLocation] = useState<string>('new york');
+  const  [keyword, setKeyword] = useState<string>('python');
+
+  const fetchJobs = useCallback(async () => {
+    props.started();
+    const queryBody: {[key: string]: string} = {
+        ['description']: keyword,
+        ['location']: location,
+    };
+    const url = 'https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json';
+    try {
+      const query = queryString.stringify(queryBody);
+      const response =
+      await fetch(`${url}?${query}`);
+      const json = await response.json();
+      props.success(json);
+    } catch (err) {
+      props.error(JSON.stringify(err));
+    }
+  }, [keyword, location]);
+
   return (
-    <Box display="flex" width="100" justifyContent="space-around" alignItems="center" boxShadow={2} m={3} p={3}>
-      <Typography variant="h4" component="h3">Github Jobs</Typography>
-      <Box className={classes.textFieldContainer} >
-        <Typography variant="body1">What</Typography>
-        <TextField
-          className={classes.textField}
-          id="search"
-          label="Keyword"
-          margin="normal"
-        />
+      <Box display="flex" width="100" justifyContent="space-around" alignItems="center" boxShadow={2} m={3} p={3}>
+        <Typography variant="h4" component="h3">Github Jobs</Typography>
+        <Box className={classes.textFieldContainer} >
+          <Typography variant="body1">What</Typography>
+          <TextField
+            className={classes.textField}
+            id="search"
+            label="Keyword / Title / Comapany"
+            margin="normal"
+            value={keyword}
+            onChange={(event) => setKeyword(event.target.value)}
+          />
+        </Box>
+        <Box className={classes.textFieldContainer}>
+          <Typography variant="body1">Where</Typography>
+          <TextField
+            className={classes.textField}
+            id="location"
+            label="Location"
+            margin="normal"
+            value={location}
+            onChange={(event) => setLocation(event.target.value)}
+          />
+        </Box>
+        <Button className={classes.searchButton} disabled={props.isApiCallInProgress} variant="contained" color="primary" onClick={fetchJobs}>Search</Button>
+        { props.isApiCallInProgress ? <CircularProgress /> : null }
       </Box>
-      <Box className={classes.textFieldContainer}>
-        <Typography variant="body1">Where</Typography>
-        <TextField
-          className={classes.textField}
-          id="location"
-          label="Location"
-          margin="normal"
-        />
-      </Box>
-      <Button className={classes.searchButton} variant="contained" color="primary">Search</Button>
-    </Box>
-  );
+    );
 }
 
 /**
  * @param state replace type any with your root state interface
  */
-const mapStateToProps = (state: any): IStateProps => ({
-
+const mapStateToProps = (state: IRootState): IStateProps => ({
+  ...state.search,
 });
 
 const mapDispatchToProps = (dispatch: any): IDiaptchProps => {
   return {
-
+    error: (error: any) => dispatch(jobFetchedFinishedError(error)),
+    success: (data: any) => dispatch(jobFetchedFinishedSuccess(data)),
+    started: () => dispatch(jobfetchStarted()),
   };
 };
 
-export default connect<IStateProps, IDiaptchProps, IOwnProps, {}>(mapStateToProps, mapDispatchToProps)(Search);
+export default connect<IStateProps, IDiaptchProps, IOwnProps, any>(mapStateToProps, mapDispatchToProps)(Search);

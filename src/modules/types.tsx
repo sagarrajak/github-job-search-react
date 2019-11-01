@@ -1,3 +1,5 @@
+import { ISearchState } from "./search/searchSlice";
+
 export interface IRootState {
-  index: any;
+  search: ISearchState;
 }

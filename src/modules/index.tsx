@@ -29,8 +29,7 @@ function IndexPage(props: IProps) {
   const classes = useStyles();
   return (
     <Switch>
-      <Route path="/result" component={SearchResult} />
-      <Route path="/" component={Search} />
+      <Route path="/" component={SearchResult} />
     </Switch>
   );
 }

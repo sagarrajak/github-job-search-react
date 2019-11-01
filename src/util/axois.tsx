@@ -1,3 +1,3 @@
 import axios from "axios";
-axios.defaults.baseURL = "https://jobs.github.com/positions.json";
+axios.defaults.baseURL = "https://jobs.github.com";
 export const Axios = axios;

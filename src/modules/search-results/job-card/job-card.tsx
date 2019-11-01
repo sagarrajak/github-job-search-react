@@ -1,28 +1,29 @@
 import { Box, Paper, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React from 'react';
+import { IJobDescription } from './types';
 
 const useStyle = makeStyles((theme: Theme) => createStyles({
-  headerText: {
+  headerJobTitleText: {
     fontSize: "1.55em",
     fontWeight: 800,
   },
-  subHeaderText: {
+  subHeaderLocationText: {
+    fontSize: "1em",
+  },
+  subHeaderCompany: {
     fontSize: "1.125em",
-  }
+  },
 }));
 
-export default function JobCard() {
+export default function JobCard(props: IJobDescription) {
   const classes = useStyle();
   return (
     <Box width="100%" boxShadow={1} p={2}>
-        <Typography className={classes.headerText}>Some Sale Manager</Typography>
-        <Typography className={classes.subHeaderText}>Mumbai, Maharashtra</Typography>
-        <Typography variant="body2">{"Adheres to sales process \
-          KYC Norms of the bank \
-          Builds and manages credible & lifelong \
-          ustomer relationship at appropriate \
-          levels through reliable service…"}</Typography>
+        <Typography className={classes.headerJobTitleText}>{props.title}</Typography>
+        <Typography className={classes.subHeaderCompany}>{props.title}</Typography>
+        <Typography className={classes.subHeaderLocationText}>{props.location}</Typography>
+        <Box dangerouslySetInnerHTML={{__html: props.description }}></Box>
     </Box>
   )
 }

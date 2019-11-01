@@ -7,12 +7,14 @@ import { reducer as formReducer } from "redux-form";
 import { configureStore } from "redux-starter-kit";
 import App from "./App";
 import "./index.css";
+import { searchReducer } from "./modules/search/searchSlice";
 import { IndexReducer } from "./modules/store/index-reducer";
 import * as serviceWorker from "./serviceWorker";
 
 const rootReducer = combineReducers({
   index: IndexReducer,
   form: formReducer,
+  search: searchReducer,
 });
 
 const store = configureStore({

@@ -4,20 +4,15 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import Search from "../search/search";
+import { ISearchState } from "../search/searchSlice";
+import { IRootState } from "../types";
 import JobCard from "./job-card/job-card";
+import { IJobDescription } from "./job-card/types";
 
-interface IOwnProps extends RouteComponentProps<{ key: string }> {
-}
+interface IOwnProps extends RouteComponentProps<{ key: string }> {}
 
-// tslint:disable-next-line: no-empty-interface
-interface IStateProps {
-}
-
-// tslint:disable-next-line: no-empty-interface
-interface IDiaptchProps {
-}
-
-type IProps = IOwnProps & IStateProps & IDiaptchProps;
+type IStateProps = ISearchState;
+type IProps = IOwnProps & IStateProps;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,19 +48,12 @@ function SearchResult(props: IProps) {
                 <Typography variant="h4"> Jobs on yes bank </Typography>
               </Box>
               <Box display="flex" flexDirection="column" p={2}>
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
-                  <JobCard />
+                  {/* { <JobCard /> } */}
+                  {
+                    props.fetchedJobs.map((job: IJobDescription) => (
+                      <JobCard  key={job.id} {...job}/>
+                    ))
+                  }
               </Box>
             </Box>
           </Grid>
@@ -82,15 +70,8 @@ function SearchResult(props: IProps) {
 /**
  * @param state replace type any with your root state interface
  */
-const mapStateToProps = (state: any): IStateProps => ({
-
+const mapStateToProps = (state: IRootState): IStateProps => ({
+    ...state.search,
 });
 
-const mapDispatchToProps = (dispatch: any): IDiaptchProps => {
-  return {
-
-  };
-};
-
-
-export default connect<IStateProps, IDiaptchProps, IOwnProps, {}>(mapStateToProps, mapDispatchToProps)(SearchResult);
+export default connect<IStateProps, any, IOwnProps, any>(mapStateToProps, null)(SearchResult);
