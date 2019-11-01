@@ -6,9 +6,9 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { IRootState } from "../types";
 import { ISearchState, jobFetchedFinishedError, jobFetchedFinishedSuccess, jobfetchStarted, setKeyword } from "./searchSlice";
+import { setSelectedCard } from '../search-results/job-card/jobCardSlice';
 
-interface IOwnProps extends RouteComponentProps<{ key: string }> {
-}
+interface IOwnProps extends RouteComponentProps<{ key: string }> {}
 
 type IStateProps = ISearchState;
 
@@ -17,6 +17,7 @@ interface IDiaptchProps {
   success: (data: any) => void;
   started: () => void;
   setKeyword: (keyword: string) => void;
+  setSelectedJobToNull: () => void; // reset selected job when user search 
 }
 
 type IProps = IOwnProps & IStateProps & IDiaptchProps;
@@ -47,6 +48,7 @@ function Search(props: IProps) {
 
   const fetchJobs = useCallback(async () => {
     props.started();
+    props.setSelectedJobToNull();
     const queryBody: {[key: string]: string} = {
         ['description']: props.keyword,
         ['location']: location,
@@ -107,6 +109,7 @@ const mapDispatchToProps = (dispatch: any): IDiaptchProps => {
     success: (data: any) => dispatch(jobFetchedFinishedSuccess(data)),
     started: () => dispatch(jobfetchStarted()),
     setKeyword: (keyword: string) => dispatch(setKeyword(keyword)),
+    setSelectedJobToNull: () => dispatch(setSelectedCard(null)),
   };
 };
 

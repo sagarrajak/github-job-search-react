@@ -49,6 +49,10 @@ function SearchResult(props: IProps) {
         console.log(props.fetchedJobs, index);
       }
     }
+    else {
+      setSelectedJob(null); //reset selected job when null is set(when user press search) 
+    }
+    console.log({ 'selectedId': props.selectedId });
   }, [props.selectedId]);
 
   return (

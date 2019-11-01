@@ -44,7 +44,6 @@ function JobCard(props: IProps) {
         <Typography className={classes.headerJobTitleText}>{props.title}</Typography>
         <Typography className={classes.subHeaderCompany}>{props.title}</Typography>
         <Typography className={classes.subHeaderLocationText}>{props.location}</Typography>
-        {/* <Box dangerouslySetInnerHTML={{__html: parseHTML(props.description) }}></Box> */}
      </Box>
   );
 }

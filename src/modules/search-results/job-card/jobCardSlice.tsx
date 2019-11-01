@@ -13,7 +13,6 @@ const searchSlice = createSlice({
   reducers: {
     setSelectedCard: (state, action) => {
       state.selectedId = action.payload;
-      console.log({action});
       return state;
     }
   },
