@@ -5,6 +5,7 @@ export interface ISearchState {
   isApiCallInProgress: boolean;
   fetchedJobs: IJobDescription[];
   isError: boolean;
+  keyword: string;
   error?: any | null;
 }
 
@@ -13,35 +14,42 @@ const searchSlice = createSlice({
   initialState: {
     isApiCallInProgress: false,
     fetchedJobs: [],
+    keyword: 'python',
     isError: false,
   } as ISearchState,
   reducers: {
-    jobfetchStarted: () => {
-      return {
+    jobfetchStarted: (state) => ({
         isApiCallInProgress: true,
         fetchedJobs: [],
         isError: false,
-      };
-    },
-    jobFetchedFinishedSuccess: (_, action) => ({
+        keyword: state.keyword,
+    }),
+    jobFetchedFinishedSuccess: (state, action) => ({
         isApiCallInProgress: false,
         fetchedJobs: action.payload,
         isError: false,
+        keyword: state.keyword,
+      }),
+    jobFetchedFinishedError: (state, action) => ({
+        isApiCallInProgress: false,
+        fetchedJobs: action.payload,
+        isError: true,
+        keyword: state.keyword,
     }),
-    jobFetchedFinishedError: (_, action) => ({
-      isApiCallInProgress: false,
-      fetchedJobs: action.payload,
-      isError: true,
+    setKeyword: (state, action) => ({
+      ...state,
+      keyword: action.payload,
     }),
   },
 });
 
 const { actions, reducer } = searchSlice;
-const { jobFetchedFinishedError, jobFetchedFinishedSuccess, jobfetchStarted } = actions;
+const { jobFetchedFinishedError, jobFetchedFinishedSuccess, jobfetchStarted, setKeyword} = actions;
 
 export {
   reducer as searchReducer,
   jobFetchedFinishedError,
   jobFetchedFinishedSuccess,
   jobfetchStarted,
+  setKeyword,
 };

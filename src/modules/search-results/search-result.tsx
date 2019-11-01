@@ -45,10 +45,10 @@ function SearchResult(props: IProps) {
           <Grid item md={6} sm={12}>
             <Box width="95%" display='flex' flexDirection='column'>
               <Box p={2} >
-                <Typography variant="h4"> Jobs on yes bank </Typography>
+                <Typography variant="h4"> {  props.keyword ? `Jobs on ${props.keyword}`
+                : 'No Search Yet' } </Typography>
               </Box>
               <Box display="flex" flexDirection="column" p={2}>
-                  {/* { <JobCard /> } */}
                   {
                     props.fetchedJobs.map((job: IJobDescription) => (
                       <JobCard  key={job.id} {...job}/>
@@ -72,6 +72,7 @@ function SearchResult(props: IProps) {
  */
 const mapStateToProps = (state: IRootState): IStateProps => ({
     ...state.search,
+    keyword: state.search.keyword,
 });
 
 export default connect<IStateProps, any, IOwnProps, any>(mapStateToProps, null)(SearchResult);

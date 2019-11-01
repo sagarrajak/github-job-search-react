@@ -5,7 +5,7 @@ import React, { useCallback, useState } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { IRootState } from "../types";
-import { ISearchState, jobFetchedFinishedError, jobFetchedFinishedSuccess, jobfetchStarted } from "./searchSlice";
+import { ISearchState, jobFetchedFinishedError, jobFetchedFinishedSuccess, jobfetchStarted, setKeyword } from "./searchSlice";
 
 interface IOwnProps extends RouteComponentProps<{ key: string }> {
 }
@@ -16,6 +16,7 @@ interface IDiaptchProps {
   error: (error: any) => void;
   success: (data: any) => void;
   started: () => void;
+  setKeyword: (keyword: string) => void;
 }
 
 type IProps = IOwnProps & IStateProps & IDiaptchProps;
@@ -43,12 +44,11 @@ const useStyles = makeStyles((theme: Theme) =>
 function Search(props: IProps) {
   const classes = useStyles();
   const  [location, setLocation] = useState<string>('new york');
-  const  [keyword, setKeyword] = useState<string>('python');
 
   const fetchJobs = useCallback(async () => {
     props.started();
     const queryBody: {[key: string]: string} = {
-        ['description']: keyword,
+        ['description']: props.keyword,
         ['location']: location,
     };
     const url = 'https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json';
@@ -61,7 +61,7 @@ function Search(props: IProps) {
     } catch (err) {
       props.error(JSON.stringify(err));
     }
-  }, [keyword, location]);
+  }, [props.keyword, location]);
 
   return (
       <Box display="flex" width="100" justifyContent="space-around" alignItems="center" boxShadow={2} m={3} p={3}>
@@ -73,8 +73,8 @@ function Search(props: IProps) {
             id="search"
             label="Keyword / Title / Comapany"
             margin="normal"
-            value={keyword}
-            onChange={(event) => setKeyword(event.target.value)}
+            value={props.keyword}
+            onChange={(event) => props.setKeyword(event.target.value)}
           />
         </Box>
         <Box className={classes.textFieldContainer}>
@@ -106,6 +106,7 @@ const mapDispatchToProps = (dispatch: any): IDiaptchProps => {
     error: (error: any) => dispatch(jobFetchedFinishedError(error)),
     success: (data: any) => dispatch(jobFetchedFinishedSuccess(data)),
     started: () => dispatch(jobfetchStarted()),
+    setKeyword: (keyword: string) => dispatch(setKeyword(keyword)),
   };
 };
 
