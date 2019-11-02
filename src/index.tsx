@@ -11,11 +11,13 @@ import { jobCardReducer } from "./modules/search-results/job-card/jobCardSlice";
 import { searchReducer } from "./modules/search/searchSlice";
 import * as serviceWorker from "./serviceWorker";
 import { IRootState } from "./modules/types";
+import { appliedJobReducer } from "./modules/search-results/job-detailed/jobDetailedSlice";
 
 const rootReducer = combineReducers<IRootState>({
   form: formReducer,
   search: searchReducer,
   jobCard: jobCardReducer,
+  appliedJob: appliedJobReducer,
 });
 
 const store = configureStore({

@@ -1,13 +1,20 @@
-import { Box, Fab } from "@material-ui/core";
+import { Box, Fab, Typography } from "@material-ui/core";
 import Undo from '@material-ui/icons/Undo';
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
+import { IAppliedJobState } from "../search-results/job-detailed/jobDetailedSlice";
+import { IRootState } from "../types";
 import ApplyPageForm from './applyPageForm';
 import SuccessDialog from "./successDialog";
 import { IApplyForm } from "./types";
+import { IJobDescription } from "../search-results/job-card/types";
 
-function ApplyPage(props: RouteComponentProps) {
+type IOwnProps = RouteComponentProps;
+type IStateProps = IAppliedJobState;
+type IProps = IOwnProps & IStateProps;
 
+function ApplyPage(props: IProps) {
   const [formSuccess, setFormSuccess] = useState<IApplyForm | null>(null);
 
   const onFormSubmit = (values: any) => {
@@ -15,6 +22,19 @@ function ApplyPage(props: RouteComponentProps) {
       new Promise<any>((resolve) => setTimeout(() => resolve(), time)))(1500).then(() => {
         setFormSuccess(values as IApplyForm);
       });
+  };
+
+  if (props.job === null)
+    props.history.push('/');
+
+  const { job } = props;
+
+  const isJobSet = (job: IJobDescription) => {
+    return (<Box pl={3} mt={3} mb={3}>
+      <Typography variant="h5">{job.title}</Typography>
+      <Typography variant="body1">{job.company}</Typography>
+      <Typography variant="body1">{job.location}</Typography>
+    </Box>);
   };
 
   return (
@@ -28,6 +48,7 @@ function ApplyPage(props: RouteComponentProps) {
         <Undo />
         Back
       </Fab>
+      {props.job ? isJobSet(props.job) : ''}
       <ApplyPageForm onSubmit={onFormSubmit} />
       <SuccessDialog {...{
         open: !!formSuccess,
@@ -36,6 +57,10 @@ function ApplyPage(props: RouteComponentProps) {
       }} />
     </Box>
   );
-}
+};
 
-export default ApplyPage;
+const mapStateToProps = (state: IRootState): IStateProps => ({
+  ...state.appliedJob,
+});
+
+export default connect<IStateProps, any, IOwnProps, any>(mapStateToProps)(ApplyPage);

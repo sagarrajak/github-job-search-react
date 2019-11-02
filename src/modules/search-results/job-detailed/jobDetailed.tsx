@@ -5,13 +5,15 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { IJobCardState } from "../job-card/jobCardSlice";
 import { IJobDescription } from "../job-card/types";
+import { setAppliedJob } from "./jobDetailedSlice";
 
-type IOwnProps =  {
+type IOwnProps = {
   job: IJobDescription,
 } & RouteComponentProps;
-
 type IStateProps = IJobCardState;
-interface IDiaptchProps {}
+interface IDiaptchProps {
+  setApplication: (job: IJobDescription) => void, 
+}
 
 type IProps = IOwnProps & IStateProps & IDiaptchProps;
 
@@ -35,7 +37,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function JobDeailed(props: IProps) {
   const classes = useStyles();
+  
   const applyForJob = () => {
+    props.setApplication(props.job);
     props.history.push('/apply');
   };
 
@@ -55,11 +59,14 @@ function JobDeailed(props: IProps) {
   );
 }
 
-/**
- * @param state replace type any with your root state interface
- */
+const mapDispathToProps = (dispatch: any): IDiaptchProps => {
+  return {
+    setApplication:(job: IJobDescription) => dispatch(setAppliedJob(job)), 
+  }
+};
+
 const mapStateToProps = (state: any): IStateProps => ({
   ...state.jobCard,
 });
 
-export default connect<IStateProps, IDiaptchProps, IOwnProps, any>(mapStateToProps)(JobDeailed);
+export default connect<IStateProps, IDiaptchProps, IOwnProps, any>(mapStateToProps, mapDispathToProps)(JobDeailed);
