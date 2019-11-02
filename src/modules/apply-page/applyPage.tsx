@@ -27,8 +27,6 @@ function ApplyPage(props: IProps) {
   if (props.job === null)
     props.history.push('/');
 
-  const { job } = props;
-
   const isJobSet = (job: IJobDescription) => {
     return (<Box pl={3} mt={3} mb={3}>
       <Typography variant="h5">{job.title}</Typography>
