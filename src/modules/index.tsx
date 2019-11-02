@@ -1,32 +1,9 @@
-import { Theme } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/styles";
 import React from "react";
-import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import ApplyPage from "./apply-page/applyPage";
-import SearchResult from "./search-results/search-result";
+import SearchResult from "./search-results/searchResult";
 
-// tslint:disable-next-line: no-empty-interface
-interface IOwnProps { }
-
-// tslint:disable-next-line: no-empty-interface
-interface IStateProps {
-}
-
-// tslint:disable-next-line: no-empty-interface
-interface IDiaptchProps {
-}
-
-type IProps = IOwnProps & IStateProps & IDiaptchProps;
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-
-  }),
-);
-
-function IndexPage(props: IProps) {
-  const classes = useStyles();
+export default function IndexPage() {
   return (
     <Switch>
       <Route path='/apply' component={ApplyPage} />
@@ -35,17 +12,4 @@ function IndexPage(props: IProps) {
   );
 }
 
-/**
- * @param state replace type any with your root state interface
- */
-const mapStateToProps = (state: any): IStateProps => ({
 
-});
-
-const mapDispatchToProps = (dispatch: any): IDiaptchProps => {
-  return {
-
-  };
-};
-
-export default connect<IStateProps, IDiaptchProps, IOwnProps, {}>(mapStateToProps, mapDispatchToProps)(IndexPage);

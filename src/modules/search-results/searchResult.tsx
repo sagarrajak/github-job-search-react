@@ -2,14 +2,13 @@ import { Box, Grid, Hidden, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps, Route } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import Search from "../search/search";
 import { ISearchState } from "../search/searchSlice";
 import { IRootState } from "../types";
 import JobCard from "./job-card/jobCard";
 import { IJobDescription } from "./job-card/types";
 import JobDetailed from './job-detailed/jobDetailed';
-import _ from 'lodash';
 
 interface IOwnProps extends RouteComponentProps<{ key: string }> { }
 
@@ -50,12 +49,11 @@ function SearchResult(props: IProps) {
       const index = props.fetchedJobs.findIndex(job => job.id === props.selectedId);
       if (index >= 0) {
         setSelectedJob(props.fetchedJobs[index]);
-        console.log(props.fetchedJobs, index);
       }
     } else {
       setSelectedJob(null); // reset selected job when null is set(when user press search) 
     }
-  }, [props.selectedId]);
+  }, [props.selectedId, props.fetchedJobs]);
 
   return (
     <React.Fragment>

@@ -3,12 +3,12 @@ import Undo from '@material-ui/icons/Undo';
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
+import { IJobDescription } from "../search-results/job-card/types";
 import { IAppliedJobState } from "../search-results/job-detailed/jobDetailedSlice";
 import { IRootState } from "../types";
 import ApplyPageForm from './applyPageForm';
 import SuccessDialog from "./successDialog";
 import { IApplyForm } from "./types";
-import { IJobDescription } from "../search-results/job-card/types";
 
 type IOwnProps = RouteComponentProps;
 type IStateProps = IAppliedJobState;

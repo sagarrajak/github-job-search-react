@@ -1,9 +1,7 @@
 import { Button } from "@material-ui/core";
-import React, { useRef, MutableRefObject } from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import React, { useRef, useState } from 'react';
 import { WrappedFieldProps } from "redux-form";
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { createRef } from "react";
-import { useState } from "react";
 
 interface IOwnProps {
 	label: string;

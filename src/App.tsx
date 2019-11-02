@@ -1,5 +1,4 @@
 import React from "react";
-import { RouteComponentProps, Router } from "react-router";
 import "./App.css";
 import Index from "./modules/index";
 

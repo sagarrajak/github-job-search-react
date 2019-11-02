@@ -9,7 +9,6 @@ import { ISearchState, jobFetchedFinishedError, jobFetchedFinishedSuccess, jobfe
 import { setSelectedCard } from '../search-results/job-card/jobCardSlice';
 
 interface IOwnProps extends RouteComponentProps<{ key: string }> {}
-
 type IStateProps = ISearchState;
 
 interface IDiaptchProps {
