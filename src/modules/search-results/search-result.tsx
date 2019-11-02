@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
     searchText: {
       width: "10%",
     },
+    selectedJobContainer: {
+      width: "95%",
+    }
   }),
 );
 
@@ -76,7 +79,7 @@ function SearchResult(props: IProps) {
           </Box>
         </Grid>
         <Hidden mdDown>
-          <Grid md={6}>
+          <Grid md={6} className={classes.selectedJobContainer}>
             {selectedJob ? <JobDetailed job={selectedJob} {...props} /> : null}
           </Grid>
         </Hidden>

@@ -46,8 +46,8 @@ function JobDeailed(props: IProps) {
   return (
   <Box
       className={classes.boxContainerActive}
-      width="100%"
-      boxShadow={2} p={2}
+      width="95%"
+      boxShadow={2} p={2} mt={10.75}
       component={"div"}
     >
     <Typography className={classes.headerJobTitleText}>{props.job.title}</Typography>
