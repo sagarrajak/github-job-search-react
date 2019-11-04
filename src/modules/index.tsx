@@ -1,15 +1,15 @@
-import { Grid, Hidden, withWidth } from "@material-ui/core";
+import { Grid, withWidth } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import ApplyPage from "./apply-page/applyPage";
 import { IJobDescription } from "./search-results/job-card/types";
 import JobDetailed from "./search-results/job-detailed/jobDetailed";
 import SearchResult from "./search-results/searchResult";
 import { ISearchState } from "./search/searchSlice";
 import { IRootState } from "./types";
-import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 
 
 interface IOwnProps {
@@ -47,7 +47,7 @@ function IndexPage(props: IProps) {
   const isSmallScreen = /xs|sm/.test(width);
 
   return (
-    <div>
+    <Switch>
       {
         isSmallScreen ? <Route path='/view-job' exact render={(routerProps) => {
         return (<Grid md={6} className={classes.selectedJobContainer}>
@@ -60,7 +60,7 @@ function IndexPage(props: IProps) {
           <Route path="/" exact component={SearchResult} /> :
             <Route path="/" component={SearchResult} />
       }
-    </div>
+    </Switch>
   );
 }
 
