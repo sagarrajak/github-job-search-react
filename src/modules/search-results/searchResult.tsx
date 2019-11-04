@@ -58,45 +58,47 @@ function SearchResult(props: IProps) {
 
   return (
     <React.Fragment>
-      <Grid container>
+      <Grid item>
         <Grid item md={12}>
           <Search {...props} />
         </Grid>
-        <Grid item md={6} sm={12}>
-          <Box width="95%" display='flex' flexDirection='column'>
-            <Box p={2} >
-              <Typography variant="h4"> {props.keyword ? `Jobs on ${props.keyword}`
-                : 'No Search Yet'} </Typography>
+        <Grid container>
+          <Grid item md={6} sm={12}>
+            <Box width="95%" display='flex' flexDirection='column'>
+              <Box p={2} >
+                <Typography variant="body1"> {props.keyword ? `Jobs on ${props.keyword}`
+                  : 'No Search Yet'} </Typography>
+              </Box>
+              <Box display="flex" flexDirection="column" p={3}>
+                {
+                  props.fetchedJobs.map((job: IJobDescription) => (
+                    <JobCard key={job.id} {...job} />
+                  ))
+                }
+              </Box>
             </Box>
-            <Box display="flex" flexDirection="column" p={2}>
-              {
-                props.fetchedJobs.map((job: IJobDescription) => (
-                  <JobCard key={job.id} {...job} />
-                ))
-              }
-            </Box>
-          </Box>
+          </Grid>
+          <Hidden mdDown>
+            <Switch>
+              <Route render={(routerProps) => {
+                return (<Grid md={6} className={classes.selectedJobContainer}>
+                  {selectedJob ? <JobDetailed job={selectedJob} {...routerProps} /> : null}
+                </Grid>)
+              }} path='/view-job'>
+              </Route>
+            </Switch>
+          </Hidden>
+          <Hidden mdUp>
+            <Switch>
+              <Route render={(routerProps) => {
+                return (<Grid md={12} className={classes.selectedJobContainer}>
+                  {selectedJob ? <JobDetailed job={selectedJob} {...routerProps} /> : null}
+                </Grid>)
+              }} path='/view-job'>
+              </Route>
+            </Switch>
+          </Hidden>
         </Grid>
-        <Hidden mdDown>
-          <Switch>
-              <Route render={(routerProps) => {
-                    return (<Grid md={6} className={classes.selectedJobContainer}>
-                        {selectedJob ? <JobDetailed job={selectedJob} {...routerProps} /> : null}
-                    </Grid>)
-                  }} path='/view-job'>
-              </Route>
-          </Switch>
-        </Hidden>
-        <Hidden mdUp>
-          <Switch>
-              <Route render={(routerProps) => {
-                    return (<Grid md={12} className={classes.selectedJobContainer}>
-                        {selectedJob ? <JobDetailed job={selectedJob} {...routerProps} /> : null}
-                    </Grid>)
-                  }} path='/view-job'>
-              </Route>
-          </Switch>
-        </Hidden>
       </Grid>
     </React.Fragment>
   );

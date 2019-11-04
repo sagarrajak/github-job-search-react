@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "40%",
       marginLeft: theme.spacing(2),
       marginRight: theme.spacing(2),
+      [theme.breakpoints.down('sm')]: {
+        width: "100%",
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+      }
     },
     textField: {
       width: "100%",
@@ -34,9 +39,23 @@ const useStyles = makeStyles((theme: Theme) =>
     searchButton: {
       width: "5%",
       height: theme.spacing(6),
+      [theme.breakpoints.down('sm')]: {
+        width: "100%",
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+      }
     },
     searchText: {
       width: "10%",
+    },
+    mainContainer: {
+      display: "flex",
+      justifyContent: "space-arround",
+      alignItems: "center",
+      flexDirection: "row",
+      [theme.breakpoints.down('sm')]: {
+        flexDirection: "column",
+      }
     },
   }),
 );
@@ -65,8 +84,8 @@ function Search(props: IProps) {
   }, [props.keyword, location]);
 
   return (
-      <Box display="flex" width="100" justifyContent="space-around" alignItems="center" boxShadow={2} m={3} p={3}>
-        <Typography variant="h4" component="h3">Github Jobs</Typography>
+      <Box className={classes.mainContainer} boxShadow={2} p={3}>
+        <Typography variant="body2">Github Jobs</Typography>
         <Box className={classes.textFieldContainer} >
           <Typography variant="body1">What</Typography>
           <TextField
@@ -89,7 +108,14 @@ function Search(props: IProps) {
             onChange={(event) => setLocation(event.target.value)}
           />
         </Box>
-        <Button className={classes.searchButton} disabled={props.isApiCallInProgress} variant="contained" color="primary" onClick={fetchJobs}>Search</Button>
+        <Button 
+          className={classes.searchButton} 
+          disabled={props.isApiCallInProgress} 
+          variant="contained" 
+          color="primary" 
+          onClick={fetchJobs} >
+            Search
+          </Button>
         { props.isApiCallInProgress ? <CircularProgress /> : null }
       </Box>
     );
