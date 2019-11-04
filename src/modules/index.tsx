@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import ApplyPage from "./apply-page/applyPage";
 import { IJobDescription } from "./search-results/job-card/types";
 import JobDetailed from "./search-results/job-detailed/jobDetailed";
@@ -55,11 +55,7 @@ function IndexPage(props: IProps) {
           </Grid>);
       }}  /> : null }
       <Route path='/apply' exact component={ApplyPage} />
-      {
-        isSmallScreen ? 
-          <Route path="/" exact component={SearchResult} /> :
-            <Route path="/" component={SearchResult} />
-      }
+      <Route path="/" component={SearchResult} />
     </Switch>
   );
 }

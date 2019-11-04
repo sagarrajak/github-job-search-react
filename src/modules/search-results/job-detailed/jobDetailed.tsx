@@ -3,17 +3,18 @@ import { createStyles, makeStyles } from "@material-ui/styles";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { IJobCardState } from "../job-card/jobCardSlice";
+import { IJobCardState, setSelectedCard } from "../job-card/jobCardSlice";
 import { IJobDescription } from "../job-card/types";
 import { setAppliedJob } from "./jobDetailedSlice";
-import Icon  from "@material-ui/core/Icon";
+import Undo from '@material-ui/icons/Undo';
 
 type IOwnProps = {
   job: IJobDescription,
 } & RouteComponentProps;
 type IStateProps = IJobCardState;
 interface IDiaptchProps {
-  setApplication: (job: IJobDescription) => void, 
+  setApplication: (job: IJobDescription) => void,
+  resetSelectedJob: () => void,
 }
 
 type IProps = IOwnProps & IStateProps & IDiaptchProps;
@@ -50,11 +51,14 @@ function JobDeailed(props: IProps) {
         <Fab
           variant="extended"
           size="small"
-          onClick={() => props.history.goBack()}
+          onClick={() => {
+            props.resetSelectedJob();
+            props.history.replace('/job-list')
+          }}
           color="primary"
           aria-label="add"
         >  
-        <Icon>undo</Icon>
+        <Undo />
         Back
       </Fab>
       </Hidden>
@@ -77,6 +81,7 @@ function JobDeailed(props: IProps) {
 const mapDispathToProps = (dispatch: any): IDiaptchProps => {
   return {
     setApplication:(job: IJobDescription) => dispatch(setAppliedJob(job)), 
+    resetSelectedJob: () => dispatch(setSelectedCard(null)),
   }
 };
 

@@ -1,5 +1,5 @@
 import { Box, Fab, Typography } from "@material-ui/core";
-import Icon  from "@material-ui/core/Icon";
+import Undo from '@material-ui/icons/Undo';
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
@@ -26,8 +26,6 @@ function ApplyPage(props: IProps) {
     });
   };
 
-  if (props.job === null) props.history.push("/");
-
   const isJobSet = (job: IJobDescription) => {
     return (
       <Box pl={3} mt={3} mb={3}>
@@ -47,7 +45,7 @@ function ApplyPage(props: IProps) {
         color="primary"
         aria-label="add"
       >
-      <Icon>undo</Icon>
+      <Undo />
         Back
       </Fab>
       {props.job ? isJobSet(props.job) : ""}
