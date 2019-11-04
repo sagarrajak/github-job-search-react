@@ -1,12 +1,12 @@
 import { Box, Fab, Typography } from "@material-ui/core";
-import Undo from '@material-ui/icons/Undo';
+import Icon  from "@material-ui/core/Icon";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { IJobDescription } from "../search-results/job-card/types";
 import { IAppliedJobState } from "../search-results/job-detailed/jobDetailedSlice";
 import { IRootState } from "../types";
-import ApplyPageForm from './applyPageForm';
+import ApplyPageForm from "./applyPageForm";
 import SuccessDialog from "./successDialog";
 import { IApplyForm } from "./types";
 
@@ -19,20 +19,23 @@ function ApplyPage(props: IProps) {
 
   const onFormSubmit = (values: any) => {
     return ((time: number) =>
-      new Promise<any>((resolve) => setTimeout(() => resolve(), time)))(1500).then(() => {
-        setFormSuccess(values as IApplyForm);
-      });
+      new Promise<any>(resolve => setTimeout(() => resolve(), time)))(
+      1500
+    ).then(() => {
+      setFormSuccess(values as IApplyForm);
+    });
   };
 
-  if (props.job === null)
-    props.history.push('/');
+  if (props.job === null) props.history.push("/");
 
   const isJobSet = (job: IJobDescription) => {
-    return (<Box pl={3} mt={3} mb={3}>
-      <Typography variant="h5">{job.title}</Typography>
-      <Typography variant="body1">{job.company}</Typography>
-      <Typography variant="body1">{job.location}</Typography>
-    </Box>);
+    return (
+      <Box pl={3} mt={3} mb={3}>
+        <Typography variant="h5">{job.title}</Typography>
+        <Typography variant="body1">{job.company}</Typography>
+        <Typography variant="body1">{job.location}</Typography>
+      </Box>
+    );
   };
 
   return (
@@ -42,23 +45,28 @@ function ApplyPage(props: IProps) {
         size="small"
         onClick={() => props.history.goBack()}
         color="primary"
-        aria-label="add">
-        <Undo />
+        aria-label="add"
+      >
+      <Icon>undo</Icon>
         Back
       </Fab>
-      {props.job ? isJobSet(props.job) : ''}
+      {props.job ? isJobSet(props.job) : ""}
       <ApplyPageForm onSubmit={onFormSubmit} />
-      <SuccessDialog {...{
-        open: !!formSuccess,
-        formValue: formSuccess,
-        onClose: () => setFormSuccess(null),
-      }} />
+      <SuccessDialog
+        {...{
+          open: !!formSuccess,
+          formValue: formSuccess,
+          onClose: () => setFormSuccess(null)
+        }}
+      />
     </Box>
   );
-};
+}
 
 const mapStateToProps = (state: IRootState): IStateProps => ({
-  ...state.appliedJob,
+  ...state.appliedJob
 });
 
-export default connect<IStateProps, any, IOwnProps, any>(mapStateToProps)(ApplyPage);
+export default connect<IStateProps, any, IOwnProps, any>(mapStateToProps)(
+  ApplyPage
+);

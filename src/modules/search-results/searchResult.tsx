@@ -2,7 +2,7 @@ import { Box, Grid, Hidden, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Switch, Route } from "react-router-dom";
 import Search from "../search/search";
 import { ISearchState } from "../search/searchSlice";
 import { IRootState } from "../types";
@@ -49,6 +49,7 @@ function SearchResult(props: IProps) {
       const index = props.fetchedJobs.findIndex(job => job.id === props.selectedId);
       if (index >= 0) {
         setSelectedJob(props.fetchedJobs[index]);
+        props.history.push('/view-job');
       }
     } else {
       setSelectedJob(null); // reset selected job when null is set(when user press search) 
@@ -77,9 +78,24 @@ function SearchResult(props: IProps) {
           </Box>
         </Grid>
         <Hidden mdDown>
-          <Grid md={6} className={classes.selectedJobContainer}>
-            {selectedJob ? <JobDetailed job={selectedJob} {...props} /> : null}
-          </Grid>
+          <Switch>
+              <Route render={(routerProps) => {
+                    return (<Grid md={6} className={classes.selectedJobContainer}>
+                        {selectedJob ? <JobDetailed job={selectedJob} {...routerProps} /> : null}
+                    </Grid>)
+                  }} path='/view-job'>
+              </Route>
+          </Switch>
+        </Hidden>
+        <Hidden mdUp>
+          <Switch>
+              <Route render={(routerProps) => {
+                    return (<Grid md={12} className={classes.selectedJobContainer}>
+                        {selectedJob ? <JobDetailed job={selectedJob} {...routerProps} /> : null}
+                    </Grid>)
+                  }} path='/view-job'>
+              </Route>
+          </Switch>
         </Hidden>
       </Grid>
     </React.Fragment>

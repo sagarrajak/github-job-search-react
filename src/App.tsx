@@ -2,10 +2,8 @@ import React from "react";
 import "./App.css";
 import Index from "./modules/index";
 
-const App: React.FC = () => {
+export default function App() {
   return (
       <Index />
   );
 };
-
-export default App;
